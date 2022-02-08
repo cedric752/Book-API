@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
         //Vul database met dummy data
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(GenreSeeder::class);
 
 
         \App\Models\Author::factory(10)->create(); 
-        $genres = \App\Models\Genre::factory(4)->create();
+        $genres = \App\Models\Genre::all();
         $books = \App\Models\Book::factory(100)->create();
 
         
