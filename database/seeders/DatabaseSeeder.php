@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(GenreSeeder::class);
 
 
-        \App\Models\Author::factory(10)->create(); 
+        $authors = \App\Models\Author::factory(10)->create(); 
         $genres = \App\Models\Genre::all();
         $books = \App\Models\Book::factory(100)->create();
 
@@ -31,6 +31,16 @@ class DatabaseSeeder extends Seeder
             
             for($i = 0; $i < $random; $i++){
                 $book->genres()->attach($shuffledGenres[$i]);
+            }
+        });
+
+        $authors->each(function($author) use ($books){
+            $random = rand(1, $books->count());
+
+            $shuffledBooks = $books->shuffle();
+            
+            for($i = 0; $i < $random; $i++){
+                $author->books()->attach($shuffledBooks[$i]);
             }
         });
 

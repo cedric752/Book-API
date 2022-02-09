@@ -24,7 +24,6 @@ class BookController extends Controller
     {
         return Book::with('author')->where('name', 'like', "%".$request->search."%")
         ->orderBy('name', $request->sort_direction ?? 'asc')->paginate(10);
-
     }
 
     /**

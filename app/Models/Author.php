@@ -14,7 +14,7 @@ class Author extends Model
         'updated_at',
     ];
 
-    public function book(){
-        return $this->belongsToOne(Book::class);
+    public function books(){
+        return $this->belongsToMany(Book::class);
     }
 }

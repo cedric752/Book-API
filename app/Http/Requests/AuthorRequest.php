@@ -27,6 +27,8 @@ class AuthorRequest extends FormRequest
             'name' => 'required|min:5|max:50',
             'age' => 'required|numeric|min:1|max:120',
             'email' => 'required|email|min:5|max:65',
+            'books' => 'required|array',
+            'books.*.id' => 'required|exists:books,id',
         ];
     }
 }

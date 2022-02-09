@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorRequest;
 
@@ -20,7 +21,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return Author::all();
+        return Author::with('books')->get();
     }
 
     /**
@@ -31,7 +32,10 @@ class AuthorController extends Controller
      */
     public function store(AuthorRequest $request)
     {
-        return Author::create($request->validated());
+        $author = Author::create($request->validated());
+        $author->books()->attach(collect($request->books)->pluck('id'));
+        $author->books;
+        return $author;
     }
 
     /**
@@ -42,7 +46,8 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        return Author::find($author);
+        $author->books;
+        return $author;
     }
 
     /**
