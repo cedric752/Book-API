@@ -7,6 +7,12 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorRequest;
 
+/**
+ * @group Authors 
+ *
+ * APIs for managing authors
+ */
+
 class AuthorController extends Controller
 {
 
@@ -15,17 +21,17 @@ class AuthorController extends Controller
         $this->authorizeResource(Author::class, 'author');
     }
     /**
-     * Display a listing of the resource.
+     * authors.index
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return Author::with('books')->get();
+        return Author::all();
     }
 
     /**
-     * Store a newly created resource in storage.
+     * authors.store
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -39,7 +45,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * authors.show
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -51,7 +57,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * authors.update
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -64,7 +70,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * authors.destroy
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

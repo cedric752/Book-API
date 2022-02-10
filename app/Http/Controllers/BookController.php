@@ -9,6 +9,12 @@ use Illuminate\Pagination\Paginator as PaginationPaginator;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\BookFilterRequest;
 
+/**
+ * @group Books
+ *
+ * APIs for managing books
+ */
+
 class BookController extends Controller
 {
     public function __construct()

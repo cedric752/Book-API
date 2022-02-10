@@ -30,4 +30,5 @@ class BookRequest extends FormRequest
             'genres.*.id' => 'required|exists:genres,id',
         ];
     }
+
 }

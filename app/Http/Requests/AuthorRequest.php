@@ -28,7 +28,21 @@ class AuthorRequest extends FormRequest
             'age' => 'required|numeric|min:1|max:120',
             'email' => 'required|email|min:5|max:65',
             'books' => 'required|array',
-            'books.*.id' => 'required|exists:books,id',
+            'books.*.id' => 'required|exists:books,id|integer',
+        ];
+    }
+
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => 'Name of the author',
+                'example' => 'Stephen King'
+            ],
+            'email' => [
+                'description' => 'Email of the author',
+                'example' => 'stephenking@mail.com'
+            ],
         ];
     }
 }
