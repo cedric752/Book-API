@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthorController;
 use App\Models\Author;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/authors', AuthorController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('/genres', GenreController::class)->only(['store', 'update', 'destroy']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/me', [AuthController::class, 'me']);
 });

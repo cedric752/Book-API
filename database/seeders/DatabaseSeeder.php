@@ -24,25 +24,20 @@ class DatabaseSeeder extends Seeder
         $books = \App\Models\Book::factory(100)->create();
 
         
-        $books->each(function($book) use ($genres){
-            $random = rand(1, $genres->count());
+        $books->each(function($book) use ($genres, $authors){
+            $randomGenres = rand(1, $genres->count());
+            $randomAuthors = rand(1, $authors->count());
 
             $shuffledGenres = $genres->shuffle();
+            $shuffledAuthors = $authors->shuffle();
             
-            for($i = 0; $i < $random; $i++){
+            
+            for($i = 0; $i < $randomGenres; $i++){
                 $book->genres()->attach($shuffledGenres[$i]);
             }
-        });
-
-        $authors->each(function($author) use ($books){
-            $random = rand(1, $books->count());
-
-            $shuffledBooks = $books->shuffle();
-            
-            for($i = 0; $i < $random; $i++){
-                $author->books()->attach($shuffledBooks[$i]);
+            for($i = 0; $i < $randomAuthors; $i++){
+                $book->authors()->attach($shuffledAuthors[$i]);
             }
         });
-
     }
 }

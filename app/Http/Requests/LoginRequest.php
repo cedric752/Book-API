@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,22 +24,18 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:5|max:50',
-            'authors' => 'required|array',
-            'authors.*.id' => 'required|exists:authors,id|integer',
-            'genres' => 'required|array',
-            'genres.*.id' => 'required|exists:genres,id|integer',
+            'email' => 'email|required',
+            'password' => 'required|string',
         ];
     }
-
     public function bodyParameters()
     {
         return [
-            'name' => [
-                'description' => 'Name of the author',
-                'example' => 'Dolfje Weerwolfje'
+            'password' => [
+                'description' => 'password of the user',
+                'example' => 'Kazam2021!'
             ],
+            
         ];
     }
-
 }

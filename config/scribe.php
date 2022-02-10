@@ -87,7 +87,7 @@ return [
                      * API calls will be made only for routes in this group matching these HTTP methods (GET, POST, etc).
                      * List the methods here or use '*' to mean all methods. Leave empty to disable API calls.
                      */
-                    'methods' => ['GET'],
+                    'methods' => ['*'],
 
                     /*
                      * Laravel config variables which should be set for the API call.
@@ -204,7 +204,7 @@ return [
         /*
          * Set this to true if any endpoints in your API use authentication.
          */
-        'enabled' => false,
+        'enabled' => true,
 
         /*
          * Set this to true if your API should be authenticated by default. If so, you must also set `enabled` (above) to true.
@@ -261,7 +261,6 @@ INTRO
      *
      */
     'example_languages' => [
-        'bash',
         'javascript',
     ],
 

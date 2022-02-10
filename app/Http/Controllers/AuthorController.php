@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorRequest;
+use App\Http\Resources\AuthorResource;
 
 /**
  * @group Authors 
@@ -27,12 +28,12 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return Author::all();
+        return AuthorResource::collection(Author::all());
     }
 
     /**
      * authors.store
-     *
+     * @authenticated
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -40,8 +41,7 @@ class AuthorController extends Controller
     {
         $author = Author::create($request->validated());
         $author->books()->attach(collect($request->books)->pluck('id'));
-        $author->books;
-        return $author;
+        return new AuthorResource($author);
     }
 
     /**
@@ -52,13 +52,12 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        $author->books;
-        return $author;
+        return new AuthorResource($author);
     }
 
     /**
      * authors.update
-     *
+     * @authenticated
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -66,12 +65,12 @@ class AuthorController extends Controller
     public function update(AuthorRequest $request, Author $author)
     {
         $author->update($request->validated());
-        return $author;
+        return new AuthorResource($author);
     }
 
     /**
      * authors.destroy
-     *
+     * @authenticated
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

@@ -6,6 +6,12 @@ use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Http\Requests\GenreRequest;
 use App\Models\Book;
+use App\Http\Resources\GenreResource;
+/**
+ * @group Genres
+ *
+ * APIs for managing genres
+ */
 
 class GenreController extends Controller
 {
@@ -14,18 +20,18 @@ class GenreController extends Controller
         $this->authorizeResource(Genre::class, 'genre');
     }
     /**
-     * Display a listing of the resource.
+     * genres.index
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return Genre::all();
+        return GenreResource::collection(Genre::all());
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * genres.store
+     * @authenticated
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -35,19 +41,19 @@ class GenreController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * genres.show
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Genre $genre)
     {
-        return Genre::find($genre);
+        return new GenreResource($genre);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * genres.update
+     * @authenticated
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -55,12 +61,12 @@ class GenreController extends Controller
     public function update(GenreRequest $request, Genre $genre)
     {
         $genre->update($request->validated());
-        return $genre;
+        return new GenreResource($genre);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * genres.destroy
+     * @authenticated
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

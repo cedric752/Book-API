@@ -10,6 +10,13 @@ class BookPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -41,7 +48,7 @@ class BookPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return false;
     }
 
     /**

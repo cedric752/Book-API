@@ -18,7 +18,6 @@ class BookFactory extends Factory
         $authorIds = Author::pluck('id');
         return [
             'name' => $this->faker->name(),
-            'author_id' => $this->faker->randomElement($authorIds),
         ];
     }
 }

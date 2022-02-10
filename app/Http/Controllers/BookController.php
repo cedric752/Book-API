@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator as PaginationPaginator;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\BookFilterRequest;
+use App\Http\Resources\BookResource;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * @group Books
  *
  * APIs for managing books
  */
-
 class BookController extends Controller
 {
     public function __construct()
@@ -22,19 +24,20 @@ class BookController extends Controller
         $this->authorizeResource(Book::class, 'book');
     }
     /**
-     * Display a listing of the resource.
+     * books.index
      *
      * @return \Illuminate\Http\Response
      */
     public function index(BookFilterRequest $request)
     {
-        return Book::with('author')->where('name', 'like', "%".$request->search."%")
+        $books = Book::with(['authors','genres'])->where('name', 'like', "%".$request->search."%")
         ->orderBy('name', $request->sort_direction ?? 'asc')->paginate(10);
+        return BookResource::collection($books);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * books.store
+     * @authenticated
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -42,26 +45,24 @@ class BookController extends Controller
     {
         $book = Book::create($request->validated());
         $book->genres()->attach(collect($request->genres)->pluck('id'));
-        $book->genres;
-        return $book;
+        $book->authors()->attach(collect($request->authors)->pluck('id'));
+        return new BookResource($book);
     }
 
     /**
-     * Display the specified resource.
+     * books.show
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Book $book)
     {
-        $book->author;
-        $book->genres;
-        return $book;
+        return new BookResource($book);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * books.update
+     * @authenticated
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -69,12 +70,12 @@ class BookController extends Controller
     public function update(BookRequest $request, Book $book)
     {
         $book->update($request->validated());
-        return $book;
+        return new BookResource($book);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * books.destroy
+     * @authenticated
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -82,10 +83,5 @@ class BookController extends Controller
     {
         $book->delete();
         return response()->noContent();
-    }
-
-    public function search($name)
-    {
-        return Book::where('name', 'like', '%'.$name.'%')->get();
     }
 }

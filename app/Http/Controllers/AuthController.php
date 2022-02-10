@@ -7,23 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 
+/**
+ * @group Auth
+ *
+ * APIs for managing authors
+ */
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    /**
+     * auth.register
+     *
+     */
+    public function register(RegisterRequest $request)
     {
-        $fields = $request->validate([
-            'name' => 'required|string|min:5|max:30',
-            'email' => 'unique:users,email|email|required',
-            'password' => 'required|string|confirmed',
-            'rol' => 'required|string'
-        ]);
-
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password']),
-        ]);
+        $user = User::create($request->validated());
 
         $token = $user->createToken('myapptoken')->plainTextToken;
 
@@ -35,12 +35,13 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function login(Request $request)
+    /**
+     * auth.login
+     *
+     */
+    public function login(LoginRequest $request)
     {
-        $fields = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required|string',
-        ]);
+        $fields = $request->validated();
 
         $user = User::where('email', $fields['email'])->first();
 
@@ -56,10 +57,22 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token
         ];
-        return response($response, 201);
+        return response($response, 200);
     }
 
+    /**
+     * auth.me
+     * @authenticated
+     */
+    public function me(Request $request)
+    {
+        return $request->user();
+    }
 
+    /**
+     * auth.logout
+     * @authenticated
+     */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();

@@ -27,4 +27,15 @@ class GenreRequest extends FormRequest
             'name' => 'required|min:5|max:50',
         ];
     }
+
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => 'name of the genre',
+                'example' => 'Horror'
+            ],
+            
+        ];
+    }
 }
