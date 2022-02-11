@@ -6,21 +6,24 @@ APi for managing books, authors and genres.
 
 ### Books
 "GET: /books"
-### Protected Routes
+
+#### Protected Routes
 "PUT: /books/{id}"
 "POST: /books"
 "DELETE: /books/{id}"
 
 ### Authors
 "GET: /authors"
-### Protected Routes
+
+#### Protected Routes
 "PUT: /authors/{id}"
 "POST: /books"
 "DELETE: /books/{id}"
 
 ### Genres
 "GET: /genres"
-### Protected Routes
+
+#### Protected Routes
 "PUT: /genres/{id}"
 "POST: /genres"
 "DELETE: /genres/{id}"
@@ -29,5 +32,6 @@ APi for managing books, authors and genres.
 "POST: /register"
 "POST: /login"
 "POST: /me"
-### Protected Routes
+
+#### Protected Routes
 "POST: /logout"
